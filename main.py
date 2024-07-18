@@ -1,13 +1,18 @@
+import os
 import discord
 from discord.ext import commands
+from dotenv import load_dotenv
+
+# Завантажуємо змінні середовища з файлу .env
+load_dotenv()
 
 intents = discord.Intents.default()
-intents.message_content = True
+intents.messages = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-# Вставте ваш новий токен бота тут
-BOT_TOKEN = 'MTI2Mjg1MTI2MDg4MTY5ODg4OA.G2Oete.wlJN6xH_0dkLo4HDW8mxnFNPe77WZl6rgn0SCc'
+# Витягнемо токен бота зі змінних середовища
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 # Розширена таблиця відповідностей
 translation_table = {
@@ -53,14 +58,16 @@ async def on_ready():
     print(f'Logged in as {bot.user}')
 
 @bot.command()
-async def start(ctx):
+async def start(ctx, attempts=3):  # Додаємо параметр attempts для обмеження спроб
     await ctx.send("Какая лучшая закуска к элю?")
-    answer = await bot.wait_for('message', check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-    if answer.content.strip().lower() == "ее нет":
-        await send_main_menu(ctx)
-    else:
-        await ctx.send("Неправильный ответ. Попробуйте снова.")
-        await start(ctx)
+    for _ in range(attempts):
+        answer = await bot.wait_for('message', check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+        if answer.content.strip().lower() == "ее нет":
+            await send_main_menu(ctx)
+            return
+        else:
+            await ctx.send("Неправильный ответ. Попробуйте снова.")
+    await ctx.send("Вы исчерпали все попытки. Попробуйте позже.")
 
 async def send_main_menu(ctx):
     await ctx.send("Привет! Я твой бот-переводчик на дворфский. Выбери действие:\n1. Перевод текста в символы\n2. Перевод символов в текст\nВведите номер действия:")
@@ -81,4 +88,4 @@ async def translate_code_to_text(ctx):
     translated_text = code_to_text(code)
     await ctx.send(f"Перевод из кода: {translated_text}")
 
-bot.run('MTI2Mjg1MTI2MDg4MTY5ODg4OA.G2Oete.wlJN6xH_0dkLo4HDW8mxnFNPe77WZl6rgn0SCc')
+bot.run(BOT_TOKEN)
