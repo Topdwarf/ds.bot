@@ -12,7 +12,7 @@ intents.messages = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Витягнемо токен бота зі змінних середовища
-BOT_TOKEN = os.getenv('BOT_TOKEN')
+BOT_TOKEN = os.getenv('MTI2Mjg1MTI2MDg4MTY5ODg4OA.G2Oete.wlJN6xH_0dkLo4HDW8mxnFNPe77WZl6rgn0SCc')
 
 # Розширена таблиця відповідностей
 translation_table = {
@@ -88,4 +88,4 @@ async def translate_code_to_text(ctx):
     translated_text = code_to_text(code)
     await ctx.send(f"Перевод из кода: {translated_text}")
 
-bot.run(BOT_TOKEN)
+bot.run('BMTI2Mjg1MTI2MDg4MTY5ODg4OA.G2Oete.wlJN6xH_0dkLo4HDW8mxnFNPe77WZl6rgn0SCc')
