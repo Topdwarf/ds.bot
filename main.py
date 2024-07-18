@@ -88,4 +88,4 @@ async def translate_code_to_text(ctx):
     translated_text = code_to_text(code)
     await ctx.send(f"Перевод из кода: {translated_text}")
 
-bot.run('BMTI2Mjg1MTI2MDg4MTY5ODg4OA.G2Oete.wlJN6xH_0dkLo4HDW8mxnFNPe77WZl6rgn0SCc')
+bot.run('MTI2Mjg1MTI2MDg4MTY5ODg4OA.G2Oete.wlJN6xH_0dkLo4HDW8mxnFNPe77WZl6rgn0SCc')
